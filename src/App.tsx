@@ -1,42 +1,58 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from 'react';
 import './App.css';
 import axios from 'axios'
+import SonnetsList from './components/SonnetsList/SonnetsList';
 
+import { nanoid } from 'nanoid'
+
+import { LinearProgress } from '@material-ui/core';
+
+export interface ISonnets {
+  title: string;
+  lines: string[];
+  id: string;
+  number: number;
+  string: string;
+}
 
 function App() {
-  const [sonnets, setSonnet] = useState<string[]>([])
-  useEffect(()=>{
+  const [sonnets, setSonnet] = useState<ISonnets[]>([])
+  const [loading, setLoading] = useState<boolean>(false)
+  useEffect(() => {
     searchPoem()
-  },[])
 
-  
+  }, [])
 
-  const searchPoem = async ():Promise<any>=>{
-    const response = 
+  const searchPoem = async (): Promise<void> => {
+    setLoading(true)
+    const response =
       await axios.get(
         `https://poetrydb.org/author/Shakespeare`
       )
-      for (let i = 0; i < 166; i++) {
-        
-          const title = response.data[i].title
-          if (title.includes('Sonnet')) {
-            console.log(title)
-            setSonnet(prev =>[...prev, title])}
-        
-       
+    const data = await response.data
+    data.map((item: ISonnets):ISonnets[] => {
+      let title: string = item.title
+      if (title.includes('Sonnet')) {
+
+        const lines: string[] = item.lines
+
+        const number = parseInt(title.replace(/[^\d]/g, ''))
+        title = title.split(':')[1].trim()
+
+        setSonnet(prev => [...prev, {
+          title: title, lines: lines,
+          id: nanoid(), number: number, string: lines.join('')
+        }])
       }
-
-      
-     
-     return sonnets
+      setLoading(false)
+      return sonnets
+    })
   }
-
   return (
-
-
-
-    <div>{sonnets}</div>
-
+    <>
+      {!loading ? (<SonnetsList sonnets={sonnets} />) : (<LinearProgress />)}
+    </>
   );
 }
 
