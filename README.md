@@ -1,4 +1,4 @@
-sheltered-fortress-84244.herokuapp.com
+https://shakespeares-sonnets.pages.dev
 
 A neat little app shows you Shakespeare's sonnets.
 
