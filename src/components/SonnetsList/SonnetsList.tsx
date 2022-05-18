@@ -12,7 +12,6 @@ type Number = {
 
 
 function SonnetsList({ sonnets }: { sonnets: ISonnets[] }): JSX.Element {
-    const [change, setChange] = useState<boolean>(false)
     const [search, setSearch] = useState<string>('')
     const [page, setpage] = useState<number>(1)
 
@@ -34,21 +33,24 @@ function SonnetsList({ sonnets }: { sonnets: ISonnets[] }): JSX.Element {
     }
 
     return (
-        <>
-            {/* <button onClick={() => setChange(!change)}>From text to numbers</button> */}
+        <div className="wrapper">
 
-            <AiOutlineLeft className="left" onClick={changeCountLeft}>left</AiOutlineLeft>
-            <AiOutlineRight className="right" onClick={changeCountRight}>right</AiOutlineRight>
-            <div className="header">
-                <input type="text" value={search}
-                    onChange={(e: ChangeEvent<HTMLInputElement>): void =>
-                        setSearch(e.target.value)} placeholder='search'
-                    className="input"
-                />
-                <p className="page" >{page} </p> 
-                <p> /7</p>
+
+
+            <div className="wrapper__header">
+                <AiOutlineLeft className="wrapper__header-left" onClick={changeCountLeft}>left</AiOutlineLeft>
+                <div className="wrapper__header-center">
+                    <input type="text" value={search}
+                        onChange={(e: ChangeEvent<HTMLInputElement>): void =>
+                            setSearch(e.target.value)} placeholder='search'
+                        className="wrapper__header-input"
+                    />
+                    <p className="wrapper__header-page" >{page} / 7</p>
+
+                </div>
+                <AiOutlineRight className="wrapper__header-right" onClick={changeCountRight}>right</AiOutlineRight>
             </div>
-            <div className={change ? 'numbers' : 'list'}>
+            <div className='wrapper__list'>
 
 
 
@@ -60,20 +62,20 @@ function SonnetsList({ sonnets }: { sonnets: ISonnets[] }): JSX.Element {
                         item.number >= count.f && item.number <= count.s
                     )
                     .map((item: ISonnets): JSX.Element => {
-                        return <SingleSonnet key={item.id} {...item} change={change} />
+                        return <SingleSonnet key={item.id} {...item} />
                     })) : (
                     sonnets.filter((item: ISonnets) =>
                         item.title.toLowerCase().includes(search.toLowerCase()) ||
                         item.string.toLowerCase().includes(search.toLowerCase()))
                         .map((item: ISonnets): JSX.Element => {
-                            return <SingleSonnet key={item.id} {...item} change={change} />
+                            return <SingleSonnet key={item.id} {...item} />
                         })
                 )
 
                 }
 
             </div>
-        </>
+        </div>
     )
 }
 

@@ -31,7 +31,7 @@ function App() {
         `https://poetrydb.org/author/Shakespeare`
       )
     const data = await response.data
-    data.map((item: ISonnets):ISonnets[] => {
+    data.map((item: ISonnets): ISonnets[] => {
       let title: string = item.title
       if (title.includes('Sonnet')) {
 

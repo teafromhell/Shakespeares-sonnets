@@ -1,16 +1,13 @@
 .single {
   padding: 4px;
-  margin-top: 20px;
+
   cursor: pointer;
   margin-left: 10px;
   margin-right: 10px;
-  //border: 1px solid black;
-  //border-bottom: 1px solid #000;
   font-weight: 300;
 
   &:hover {
     color: hsl(168, 34%, 41%);
-    
   }
 }
 
@@ -46,12 +43,15 @@
   }
 }
 
-
-
 @media screen and (max-width: 480px) {
-    .single__popup-text {
-        align-items: flex-start;
-        margin: 5px;
-      }
-    
+  .single__popup {
+    margin: 0;
+  }
+  .single__popup-text {
+    align-items: flex-start;
+
+    p {
+      font-size: 15px;
+    }
+  }
 }
